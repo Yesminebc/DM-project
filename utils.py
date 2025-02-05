@@ -5,23 +5,23 @@ from sklearn.mixture import GaussianMixture
 
 def gmm_clustering(data_scaled, n_clusters):
     """
-    使用 GMM 进行聚类，并返回聚类结果和模型。
+    cluster the data using Gaussian Mixture Model (GMM).
 
     Parameters:
     -----------
     data_scaled: np.ndarray
-        标准化后的数据。
+        standardized data (shape: n_samples x n_features).
     n_clusters: int
-        聚类数。
+        number of clusters.
 
     Returns:
     --------
     cluster_assignments: np.ndarray
-        聚类分配结果。
+        cluster_assignments[i] means the cluster index of the i-th sample.
     gmm_model: GaussianMixture
-        训练好的 GMM 模型。
+        trained GMM model.
     """
-    # 初始化并训练 GMM 模型
+    # initialize GMM and fit the model
     gmm = GaussianMixture(n_components=n_clusters, random_state=42)
     gmm.fit(data_scaled)
     cluster_assignments = gmm.predict(data_scaled)
@@ -38,18 +38,18 @@ def gmm_clustering(data_scaled, n_clusters):
     return cluster_assignments, gmm
 def visualize_clusters(data_scaled, cluster_assignments, method='PCA', n_components=2):
     """
-    使用 PCA 或 t-SNE 对聚类结果进行降维可视化。
+    visualize the clustering results in 2D space using PCA or t-SNE.
 
     Parameters:
     -----------
     data_scaled: np.ndarray
-        标准化后的数据（形状为 n_samples x n_features）。
+        standardized data (shape: n_samples x n_features).
     cluster_assignments: np.ndarray
-        聚类分配结果（形状为 n_samples）。
+        result of clustering (shape: n_samples).
     method: str
-        降维方法 ('PCA' 或 't-SNE')。
+        method for dimensionality reduction ('PCA' or 't-SNE').
     n_components: int
-        降维的目标维度（通常为 2）。
+        obtained number of components after dimensionality reduction.(default: 2)
 
     Returns:
     --------
@@ -74,29 +74,33 @@ def visualize_clusters(data_scaled, cluster_assignments, method='PCA', n_compone
     plt.ylabel("Component 2")
     plt.grid()
     plt.show()
-import numpy as np
 
-
-
-from sklearn.cluster import KMeans
 import numpy as np
 from sklearn.cluster import KMeans
 
-# Soft KMeans 聚类
 class SoftKMeans:
     def __init__(self, n_clusters=3, beta=2.0):
         self.n_clusters = n_clusters
         self.beta = beta
 
     def fit(self, X):
+        """
+        cluster the data using soft k-means algorithm.
+        """
         self.kmeans = KMeans(n_clusters=self.n_clusters, init='k-means++', n_init=20)
         self.kmeans.fit(X)
         self.cluster_centers_ = self.kmeans.cluster_centers_
 
-    def predict(self, X):
+        # calculate the responsibilities
         distances = np.linalg.norm(X[:, None] - self.cluster_centers_, axis=2)
         exp_distances = np.exp(-self.beta * distances)
-        return exp_distances / exp_distances.sum(axis=1, keepdims=True)
+        soft_assignments = exp_distances / exp_distances.sum(axis=1, keepdims=True)
+
+        # hard assignments
+        cluster_assignments = np.argmax(soft_assignments, axis=1)
+
+        return cluster_assignments
+
 
 class PreferenceSoftKMeans:
     def __init__(self, n_clusters=3, beta=2.0):
@@ -104,22 +108,22 @@ class PreferenceSoftKMeans:
         self.beta = beta
 
     def fit(self, X, preference_constraints=None):
-        # Step 1: 初始化
+        # Step 1: initialize cluster centers
         self.kmeans = KMeans(n_clusters=self.n_clusters, init='k-means++', n_init=20)
         self.kmeans.fit(X)
         self.cluster_centers_ = self.kmeans.cluster_centers_
 
-        # Step 2: 迭代更新
-        for iteration in range(10):  # 迭代次数
+        # Step 2: iterate to update cluster centers
+        for iteration in range(10):  # num_iterations
             distances = np.linalg.norm(X[:, None] - self.cluster_centers_, axis=2)
             exp_distances = np.exp(-self.beta * distances)
             responsibilities = exp_distances / exp_distances.sum(axis=1, keepdims=True)
 
-            # 引入偏好约束
+            # incorporate preference constraints
             if preference_constraints is not None:
                 responsibilities *= preference_constraints
 
-            # 更新聚类中心
+            # update cluster centers
             self.cluster_centers_ = np.dot(responsibilities.T, X) / responsibilities.sum(axis=0)[:, None]
 
     def predict(self, X):
@@ -127,8 +131,5 @@ class PreferenceSoftKMeans:
         exp_distances = np.exp(-self.beta * distances)
         return exp_distances / exp_distances.sum(axis=1, keepdims=True)
 
-
-from sklearn.linear_model import LogisticRegression
-from scipy.special import expit
 
 
