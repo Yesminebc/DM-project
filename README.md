@@ -10,7 +10,7 @@ The project explores two approaches:
 
 # Installation Instructions
 Run the following command to install the required libraries:
-pip install numpy pandas scikit-learn matplotlib seaborn gurobipy torch torchvision
+`pip install numpy pandas scikit-learn matplotlib seaborn gurobipy torch torchvision`
 
 If you encounter issues with gurobipy, ensure you have a valid Gurobi license.
 For visualization, matplotlib and seaborn are used.
