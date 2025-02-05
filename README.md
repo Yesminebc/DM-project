@@ -10,7 +10,15 @@ The project explores two approaches:
 
 # Installation Instructions
 Run the following command to install the required libraries:
-`pip install numpy pandas scikit-learn matplotlib seaborn gurobipy torch torchvision`
+```Python
+pip install numpy
+pip install pandas
+pip install scikit-learn
+pip install matplotlib
+pip install seaborn
+pip install gurobipy
+pip install torch
+pip install torchvision
 
 If you encounter issues with gurobipy, ensure you have a valid Gurobi license.
 For visualization, matplotlib and seaborn are used.
@@ -21,9 +29,10 @@ data.py: Implements the Dataloader class to load datasets from .npy files, inclu
 
 metrics.py: Defines evaluation metrics such as PairsExplained and ClusterIntersection to assess clustering performance.
 
-models.py : Defines database models and their attributes. The two clustering models are :
-- TwoClustersMIP (Mixed-Integer Programming Model)
-- HeuristicMode  (Heuristic Model)
+2 models.py files : Define database models and their attributes. Each file has :
+- The class TwoClustersMIP (Mixed-Integer Programming Model)
+- The class HeuristicModel containning one of the two proposed heuristic solutions.
+
 
 evaluation.py : evaluates the performance of the two models.
 
