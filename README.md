@@ -30,9 +30,10 @@ data.py: Implements the Dataloader class to load datasets from .npy files, inclu
 
 metrics.py: Defines evaluation metrics such as PairsExplained and ClusterIntersection to assess clustering performance.
 
-2 models.py files : Define database models and their attributes. Each file has :
+2 models.py files : Define database models and their attributes. 
+Each file has :
 - The class TwoClustersMIP (Mixed-Integer Programming Model)
-- The class HeuristicModel containning one of the two proposed heuristic solutions.
+- The class HeuristicModel containing one of the two proposed heuristic solutions.
 
 
 evaluation.py : evaluates the performance of the two models.
