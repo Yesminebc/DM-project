@@ -10,7 +10,7 @@ The project explores two approaches:
 
 # Installation Instructions
 Run the following command to install the required libraries:
-```Python
+```Bash
 pip install numpy
 pip install pandas
 pip install scikit-learn
@@ -18,7 +18,7 @@ pip install matplotlib
 pip install seaborn
 pip install gurobipy
 pip install torch
-pip install torchvision `\`\`\``
+pip install torchvision 
 
 If you encounter issues with gurobipy, ensure you have a valid Gurobi license.
 For visualization, matplotlib and seaborn are used.
