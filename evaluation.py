@@ -11,8 +11,8 @@ from models import HeuristicModel, TwoClustersMIP
 if __name__ == "__main__":  
     print("Starting Python script for evaluation")
     # print("Path to data is:", sys.argv[1])
-    # path_to_data = sys.argv[1]
-    path_to_data = 'data/'
+    path_to_data = sys.argv[1]
+    # path_to_data = 'data/'
     print("Path to data is:", path_to_data)
     print(os.listdir(path_to_data))
     print("MIP Model - dataset_4:")
