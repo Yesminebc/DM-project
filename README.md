@@ -1,9 +1,11 @@
 # Decision Making Project: Clustering and Modeling Customer Preferences
 
 Project Overview :
+
 This project aims to develop models for clustering customers based on their purchasing decisions and identifying the decision-making functions that guide their choices. Understanding customer preferences is crucial for optimizing product offerings in the retail sector. 
 
 The project explores two approaches:
+
 1- Mixed-Integer Programming (MIP) Solution: A mathematical optimization model that clusters customers using the UTA (Utility Additive) model.
 
 2- Heuristic Solutions: Scalable methods including K-Means clustering and a preference-based Soft-KMeans algorithm for handling large datasets efficiently.
