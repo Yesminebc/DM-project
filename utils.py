@@ -89,23 +89,14 @@ class SoftKMeans:
         self.beta = beta
 
     def fit(self, X):
-        """
-        进行 Soft K-means 聚类，并返回聚类分配。
-        """
         self.kmeans = KMeans(n_clusters=self.n_clusters, init='k-means++', n_init=20)
         self.kmeans.fit(X)
         self.cluster_centers_ = self.kmeans.cluster_centers_
 
-        # 计算每个样本的 soft assignment
+    def predict(self, X):
         distances = np.linalg.norm(X[:, None] - self.cluster_centers_, axis=2)
         exp_distances = np.exp(-self.beta * distances)
-        soft_assignments = exp_distances / exp_distances.sum(axis=1, keepdims=True)
-
-        # 硬聚类：每个样本选择最大概率的簇
-        cluster_assignments = np.argmax(soft_assignments, axis=1)
-
-        return cluster_assignments
-
+        return exp_distances / exp_distances.sum(axis=1, keepdims=True)
 
 class PreferenceSoftKMeans:
     def __init__(self, n_clusters=3, beta=2.0):
