@@ -21,6 +21,7 @@ pip install seaborn
 pip install gurobipy
 pip install torch
 pip install torchvision
+pip install scikit-learn imbalanced-learn choice-learn
 ```
 
 If you encounter issues with gurobipy, ensure you have a valid Gurobi license.
